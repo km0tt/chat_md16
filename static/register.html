@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/alertify.js/0.3.11/alertify.bootstrap.css' integrity='sha512-eauod+oRhJ84heQKG7Koq4RFiVEXhqhi14M+3+m/6XPJ/FmRHz4yDJ9mtz1X8HdOmQjdX69Wg8/rKal7lgEfsw==' crossorigin='anonymous'/>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/alertify.js/0.3.11/alertify.core.css' integrity='sha512-eZih0rne5vAjEWet1syNsU3LTj1TygGLuLq304xv+JZeaIqi1E1OCbYFD0YPMqhgqFYoOH28QJzJIj+wkVWm+A==' crossorigin='anonymous'/>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/alertify.js/0.3.11/alertify.js' integrity='sha512-7Qu5pr+fIUNnTgU03DC5Y1b3brNO64CQUCT1X+hEcbMM8NGasu+WWBVtF7byk01X+gFdZqSPDpOV3y5lFair0A==' crossorigin='anonymous'></script>
+</head>
+<body>
+    <header>
+            <h1>Чатік</h1>
+        </header>
+    <main id="register">
+        <form>
+            <h1>Register</h1>
+            <label for="login">Login</label>
+            <input type="text" name="login" id="login">
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password">
+            <label for="repeated_password">Repeat password</label>
+            <input type="password" name="repeated_password" id="repeated_password">
+
+            <button type="submit">Register</button>
+        </form>
+    </main>
+    <script>
+        const form = document.querySelector("form")
+        form.addEventListener("submit", (event)=>{
+            event.preventDefault()
+            let data = {
+                login: event.target["login"].value,
+                password: event.target["password"].value,
+                repeated_password: event.target["repeated_password"].value
+            }
+            console.log(data)
+            if(data.login.length < 3){
+                alertify.error("login too short")
+                return
+            }
+            if(data.password.length < 5){
+                alertify.error("password too short")
+                return
+            }
+            if(data.password != data.repeated_password){
+                alertify.error("Password and repeated password dont match")
+                return
+            }
+            fetch("/register", {
+                method: "POST",
+                headers: {
+                    "Content-type": "application/json"
+                },
+                body: JSON.stringify(data)
+            }).then(res=>{
+                if(res.ok){
+                    navigation.navigate("/")
+                }
+                else{
+                    alertify.error("Register error")
+                }
+            })
+        })
+    </script>
+</body>
+</html>

@@ -89,3 +89,20 @@ form button{
     border: none;
     cursor: pointer;
 }
+
+main#register{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+}
+
+main#register form{
+    flex-direction: column;
+    padding: 1rem;
+    border-radius: 1rem;
+}
+
+main#register form label{
+    margin-top: 1rem;
+}
