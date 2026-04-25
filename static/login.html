@@ -15,15 +15,13 @@
         </header>
         <main id="register">
             <form>
-                <h1>Register</h1>
+                <h1>Login</h1>
                 <label for="login">Login</label>
                 <input type="text" name="login" id="login">
                 <label for="password">Password</label>
                 <input type="password" name="password" id="password">
-                <label for="repeated_password">Repeat Password</label>
-                <input type="password" name="repeated_password" id="repeated_password">
 
-                <button type="submit">Register</button>
+                <button type="submit">Log in</button>
             </form>
         </main>
         <script>
@@ -33,9 +31,7 @@
                 let data = {
                     login: event.target["login"].value,
                     password: event.target["password"].value,
-                    repeated_password: event.target["repeated_password"].value
                 }
-                console.log(data)
                 if(data.login.length < 3){
                     alertify.error("Login too short!")
                     return
@@ -44,21 +40,19 @@
                     alertify.error("Password too short")
                     return
                 }
-                if(data.password != data.repeated_password){
-                    alertify.error("Password and repeated password don't match!")
-                    return
-                }
-                fetch("/register", {
+                fetch("/login", {
                     method: "POST",
                     headers: {
                         "Content-type": "application/json"
                     },
                     body: JSON.stringify(data)
-                }).then(res=> {
+                }).then(async res=> {
                     if(res.ok){
+                        let token = await res.text()
+                        document.cookie = "token=" + token
                         navigation.navigate("/")
                     }else{
-                        alertify.error("Register Error!")
+                        alertify.error("Login error!")
                     }
                 })
             })

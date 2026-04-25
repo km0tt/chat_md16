@@ -20,6 +20,9 @@
   },
   "homepage": "https://github.com/km0tt/chat_md16#readme",
   "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cookie": "^1.1.1",
+    "jsonwebtoken": "^9.0.3",
     "mysql2": "^3.20.0",
     "socket.io": "^4.8.3"
   }
